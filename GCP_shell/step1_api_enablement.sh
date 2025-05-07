@@ -1,0 +1,1 @@
+gcloud services enable cloudfunctions.googleapis.com pubsub.googleapis.com storage.googleapis.com aiplatform.googleapis.com bigquery.googleapis.com firebase.googleapis.com cloudbuild.googleapis.com cloudscheduler.googleapis.com monitoring.googleapis.com logging.googleapis.com --project=diabeticretinopathy-456817
