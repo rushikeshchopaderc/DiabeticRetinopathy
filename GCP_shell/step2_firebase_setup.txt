@@ -1,0 +1,67 @@
+Set Up Firebase:
+
+1.Go to the Firebase Console (https://console.firebase.google.com/).
+Add your GCP project to Firebase (if not already added).
+Enable Email/Password authentication:
+In Firebase Console, go to Authentication > Sign-in method.
+Enable Email/Password provider.
+Create a Firebase Service Account:
+
+
+2.Download the Firebase Admin SDK service account key:
+Go to Project Settings > Service accounts.
+Generate a new private key and download the JSON file.
+Store this securely (you’ll use it in Cloud Functions).
+
+Alternative: Use Workload Identity Federation (Recommended):
+Instead of creating a service account key, use Workload Identity Federation to securely authenticate your Firebase Admin SDK without a private key. This is a more secure approach and aligns with best practices.
+Steps:
+    a) Enable Workload Identity Federation:
+    In Google Cloud Console, go to IAM & Admin > Workload Identity Federation.
+    b) Follow the setup instructions to enable it for your project.
+    Use Application Default Credentials (ADC):
+    In your Cloud Functions (where Firebase Admin SDK is used), initialize the SDK without a key file:
+    python
+
+    import firebase_admin
+    from firebase_admin import credentials
+
+    # Use Application Default Credentials (no key file needed)
+    firebase_admin.initialize_app()
+
+
+    Ensure the Cloud Functions service account has the necessary Firebase Admin role:
+    bash
+
+    Copy
+gcloud projects add-iam-policy-binding <project-id> \
+  --member=serviceAccount:<function-service-account>@<project-id>.iam.gserviceaccount.com \
+  --role=roles/firebaseadmin
+
+    c) Deploy the Cloud Function:
+    Redeploy the affected Cloud Functions (e.g., register_doctor, activate_account) with the updated code. 
+
+
+3. Add Firebase SDK to Mobile App:
+Follow Firebase documentation to add the Firebase SDK to your mobile app (iOS/Android/Flutter).
+Example for Flutter:
+Add firebase_auth and firebase_core to pubspec.yaml:
+yaml
+
+Copy
+dependencies:
+  firebase_auth: ^4.0.0
+  firebase_core: ^2.0.0
+Initialize Firebase in your app:
+dart
+
+Copy
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
+
+
