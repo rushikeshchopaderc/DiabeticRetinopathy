@@ -1,0 +1,7 @@
+Done:
+Created a bucket in us-central-1 because of the cost as compared to mumbai bucket hosting.
+Passed the lifecycle configuration to move the images with age 180+ days to coldline storage.
+
+To Do: 
+You need to Grant Access to Cloud Functions after creating the bucket (either mannually or with the shell coomand)
+gsutil iam ch serviceAccount:<function-service-account>@DiabeticRetinopathy-456817.iam.gserviceaccount.com:roles/storage.admin gs://diabetic_retinopathy_retinal_images
